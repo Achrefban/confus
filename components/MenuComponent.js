@@ -1,30 +1,55 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { DISHES } from '../shared/dishes';
+import Dishdetail from './DishDetailComponent';
+import 'react-native-gesture-handler';
 
-function Menu(props) {
 
-    const renderMenuItem = ({item, index}) => {
+class  Menu extends Component{
 
-        return (
-            <ListItem
-            key={index}
-            title={item.name}
-            subtitle={item.description}
-            hideChevron={true}
-            onPress={() => props.onPress(item.id)}
-            leftAvatar={{ source: require('./images/uthappizza.png')}}
-          />
-        );
+    constructor(props) {
+        super(props);
+        this.state = {
+            dishes: DISHES
+        };
+    }
+
+    static navigationOptions = {
+        title: 'Menu'
     };
 
-    return (
+
+    render() {
+        const { navigate } = this.props.navigation;
+
+        const renderMenuItem = ({item, index}) => {
+
+            return (
+                <ListItem
+                key={index}
+                title={item.name}
+                subtitle={item.description}
+                hideChevron={true}
+                onPress={() => navigate('Dishdetail', {dishId: item.id})}
+                leftAvatar={{ source: require('./images/uthappizza.png')}}
+              />
+            );
+        };
+
+        
+
+        return (
+            
             <FlatList 
-                data={props.dishes}
+                data={this.state.dishes}
                 renderItem={renderMenuItem}
                 keyExtractor={item => item.id.toString()}
                 />
+               
     );
+    }
+    
 }
 
 
