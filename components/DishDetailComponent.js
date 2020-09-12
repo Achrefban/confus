@@ -6,6 +6,8 @@ import { COMMENTS } from '../shared/comments';
 import { Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+
 
 const mapStateToProps = state => {
     return {
@@ -69,7 +71,7 @@ function RenderComments(props) {
     );
 }
 
-class Dishdetail extends Component {
+class DishDetail extends Component {
 
     constructor(props) {
         super(props);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
+import { Loading } from './LoadingComponent';
+
 
 class Contact extends Component {
 

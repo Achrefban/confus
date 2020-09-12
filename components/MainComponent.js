@@ -13,6 +13,8 @@ import Contact from './ContactComponent';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { Loading } from './LoadingComponent';
+
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
