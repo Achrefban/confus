@@ -8,17 +8,21 @@ class Reservation extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            guests: 1,
-            smoking: false,
-            date: '',
-            showModal: false
-        }
+        this.state = this.defaultState();
     }
 
     static navigationOptions = {
         title: 'Reserve Table',
     };
+
+    defaultState() {
+        return({
+            guests: 1,
+            smoking: false,
+            date: '',
+            showModal: false,
+        })
+    }
 
     handleReservation() {
         console.log(JSON.stringify(this.state));
@@ -109,8 +113,8 @@ class Reservation extends Component {
                 </View>
                 <Modal animationType = {"slide"} transparent = {false}
                     visible = {this.state.showModal}
-                    onDismiss = {() => this.toggleModal() }
-                    onRequestClose = {() => this.toggleModal() }>
+                    onDismiss={() => {this.resetForm()}}
+                    onRequestClose={() => {this.resetForm()}}>
                     <View style = {styles.modal}>
                         <Text style = {styles.modalTitle}>Your Reservation</Text>
                         <Text style = {styles.modalText}>Number of Guests: {this.state.guests}</Text>
@@ -118,7 +122,7 @@ class Reservation extends Component {
                         <Text style = {styles.modalText}>Date and Time: {this.state.date}</Text>
                         
                         <Button 
-                            onPress = {() =>{this.toggleModal(); this.resetForm();}}
+                            onPress={() => {this.resetForm()}}
                             color="#512DA8"
                             title="Close" 
                             />
