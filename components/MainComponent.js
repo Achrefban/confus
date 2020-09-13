@@ -240,7 +240,7 @@ const MainNavigator = createDrawerNavigator({
                   name='heart'
                   type='font-awesome'
                   size={24}
-                  color={tintColor}
+                  color={tintColddor}
               />
           )
 
