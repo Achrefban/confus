@@ -31,18 +31,29 @@ function RenderDish({
     markFavorite,
     openCommentForm,
 }) {
+
+    handleViewRef = ref => this.view = ref;
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
         if (dx < -200)
             return true; // Right to left
         return false;
     };
 
+    const recognizeComment = ({ dx }) => {
+        if (dx > 200) return true; // Left to right
+        return false;
+      };
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true; 
         },
+        onPanResponderGrant: () => {
+            this.view.rubberBand(1000)
+                .then(endState => console.log(endState.finised ? 'finished' : 'cancelled' ))
+        },
         onPanResponderEnd: (e, gestureState) => {
-            if (recognizeDrag(gestureState))
+            if (recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add to Favorites?',
                     'Are you sure you wish to add ' + dish.name + ' to your favorites?',
@@ -58,7 +69,9 @@ function RenderDish({
                         },
                     ],
                     { cancelable: false }
-                )
+                );
+                } else if (recognizeComment(gestureState)) {
+                    openCommentForm(); }
             return true; 
         },
     });
