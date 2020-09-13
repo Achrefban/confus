@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View,ScrollView, FlatList, StyleSheet, Modal, Button } from 'react-native';
+import { Text, View,ScrollView, FlatList, StyleSheet, Modal, Button,  Alert, PanResponder} from 'react-native';
 import {DISHES} from '../shared/dishes';
 import 'react-native-gesture-handler';
 import { COMMENTS } from '../shared/comments';
@@ -31,12 +31,48 @@ function RenderDish({
     markFavorite,
     openCommentForm,
 }) {
+    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+        if (dx < -200)
+            return true; // Right to left
+        return false;
+    };
+
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: (e, gestureState) => {
+            return true; 
+        },
+        onPanResponderEnd: (e, gestureState) => {
+            if (recognizeDrag(gestureState))
+                Alert.alert(
+                    'Add to Favorites?',
+                    'Are you sure you wish to add ' + dish.name + ' to your favorites?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancel button pressed.'),
+                            style: 'cancel',
+                        },
+                        {
+                            text: 'OK',
+                            onPress: () => favorite ? console.log('Already favorited') : markFavorite(),
+                        },
+                    ],
+                    { cancelable: false }
+                )
+            return true; 
+        },
+    });
+
 
     const dish = props.dish;
     
         if (dish != null) {
             return(
-                <Animatable.View animation="fadeInDown" duration={2000}>
+                <Animatable.View 
+                animation="fadeInDown" 
+                duration={2000}
+                {...panResponder.panHandlers}
+            >
                 <Card
                     featuredTitle={dish.name}
                     image={ {uri: baseUrl + dish.image}}
